@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="productCatalog">
+
+<head>
+  <title>Product Catalog</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+
+  <!-- Angular Material CSS -->
+  <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Roboto Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+
+  <!-- Application CSS -->
+  <link rel="stylesheet" href="src/css/styles.css">
+</head>
+
+<body ng-cloak>
+  <div ng-controller="AppController as app" layout="column" class="main-container">
+    <!-- Header -->
+    <md-toolbar class="md-primary md-hue-2 site-header" md-whiteframe="4">
+      <div class="md-toolbar-tools">
+        <h1>
+          <a href="#!/">
+            <span class="logo">ProductHub</span>
+          </a>
+        </h1>
+        <span flex></span>
+        <md-input-container md-no-float class="search-box md-icon-float">
+          <md-icon>search</md-icon>
+          <input ng-model="app.searchQuery" placeholder="Search products...">
+        </md-input-container>
+      </div>
+    </md-toolbar>
+
+    <!-- Main Content -->
+    <div ng-view flex layout="column"></div>
+  </div>
+
+  <!-- Angular Libraries -->
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-aria/angular-aria.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.js"></script>
+  <script src="node_modules/angular-messages/angular-messages.js"></script>
+  <script src="node_modules/angular-route/angular-route.js"></script>
+  <script src="node_modules/angular-sanitize/angular-sanitize.js"></script>
+  <script src="node_modules/angular-material/angular-material.js"></script>
+
+  <!-- Application JavaScript -->
+  <script src="src/js/app.js"></script>
+  <script src="src/js/controllers/AppController.js"></script>
+  <script src="src/js/controllers/ProductListController.js"></script>
+  <script src="src/js/controllers/ProductDetailController.js"></script>
+  <script src="src/js/services/ProductService.js"></script>
+  <script src="src/js/services/CategoryService.js"></script>
+  <script src="src/js/filters/CategoryFilter.js"></script>
+  <script src="src/js/filters/SearchFilter.js"></script>
+
+</body>
+
+</html>

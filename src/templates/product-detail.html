@@ -1,0 +1,86 @@
+<div class="product-detail-container" layout="column" layout-padding>
+  <!-- Loading Indicator -->
+  <div layout="row" layout-align="center center" ng-if="productDetail.loading" style="min-height: 400px;">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+  </div>
+  
+  <div ng-if="!productDetail.loading && productDetail.product">
+    <!-- Back Button -->
+    <md-button class="md-primary back-button" ng-click="productDetail.goBack()">
+      <md-icon>arrow_back</md-icon> Back to Products
+    </md-button>
+    
+    <!-- Product Detail Card -->
+    <md-card class="product-detail-card" md-whiteframe="2">
+      <div layout="row" layout-xs="column" layout-wrap>
+        <!-- Product Image -->
+        <div flex="40" flex-xs="100" layout="column" layout-align="start center" layout-padding>
+          <img ng-src="{{productDetail.product.image}}" class="product-image" alt="{{productDetail.product.name}}">
+        </div>
+        
+        <!-- Product Information -->
+        <div flex="60" flex-xs="100" layout-padding>
+          <h1 class="product-detail-title">{{productDetail.product.name}}</h1>
+          <p class="product-detail-category">{{productDetail.product.category}}</p>
+          
+          <!-- Ratings -->
+          <div layout="row" layout-align="start center" style="margin-bottom: 16px;">
+            <md-icon ng-repeat="i in [1, 2, 3, 4, 5]" 
+                     ng-if="i <= productDetail.product.rating"
+                     style="color: #FFC107;">star</md-icon>
+            <md-icon ng-repeat="i in [1, 2, 3, 4, 5]" 
+                     ng-if="i > productDetail.product.rating"
+                     style="color: #E0E0E0;">star_border</md-icon>
+            <span class="md-subhead" style="margin-left: 8px;">
+              {{productDetail.product.rating}}/5
+            </span>
+          </div>
+          
+          <p class="product-detail-price">${{productDetail.product.price.toFixed(2)}}</p>
+          
+          <!-- Add to Cart Button -->
+          <md-button class="md-raised md-primary" style="margin-left: 0; margin-bottom: 24px;">
+            <md-icon>add_shopping_cart</md-icon> Add to Cart
+          </md-button>
+          
+          <!-- Product Description -->
+          <h3 class="md-title">Description</h3>
+          <p class="product-detail-description">{{productDetail.product.description}}</p>
+          
+          <!-- Product Specifications -->
+          <h3 class="md-title">Specifications</h3>
+          <md-list>
+            <md-list-item ng-repeat="(key, value) in productDetail.product.specs">
+              <p><strong>{{key}}:</strong> {{value}}</p>
+            </md-list-item>
+          </md-list>
+        </div>
+      </div>
+    </md-card>
+    
+    <!-- Related Products -->
+    <div layout="column" style="margin-top: 24px;">
+      <h2 class="md-title">You might also like</h2>
+      <div layout="row" layout-wrap>
+        <div flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" 
+            ng-repeat="product in productDetail.relatedProducts" 
+            layout-padding>
+          <!-- Placeholder for related products -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Error Message if Product Not Found -->
+  <div ng-if="!productDetail.loading && !productDetail.product">
+    <md-card class="md-padding" md-whiteframe="2">
+      <md-card-content>
+        <h2 class="md-title">Product Not Found</h2>
+        <p>The product you are looking for does not exist or has been removed.</p>
+        <md-button class="md-primary" ng-click="productDetail.goBack()">
+          Return to Products
+        </md-button>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

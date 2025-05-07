@@ -1,0 +1,81 @@
+<div layout="column" class="product-container">
+  <!-- Categories and Products Container -->
+  <div layout="row" layout-xs="column" flex>
+    
+    <!-- Category Sidebar -->
+    <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="category-sidebar" md-whiteframe="1">
+      <md-list class="category-list">
+        <md-subheader class="md-no-sticky">Categories</md-subheader>
+        
+        <md-list-item>
+          <md-button ng-class="{'active': productList.selectedCategory === 'all'}" 
+                     ng-click="productList.selectCategory('all')">
+            All Categories
+          </md-button>
+        </md-list-item>
+        
+        <md-list-item ng-repeat="category in productList.categories">
+          <md-button ng-class="{'active': productList.selectedCategory === category}" 
+                     ng-click="productList.selectCategory(category)">
+            {{category}}
+          </md-button>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+    
+    <!-- Product Grid -->
+    <div flex layout="column" class="product-grid">
+      <!-- Loading Indicator -->
+      <div layout="row" layout-align="center center" ng-if="productList.loading">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      </div>
+      
+      <!-- Product Heading -->
+      <div layout="row" layout-align="space-between center" ng-if="!productList.loading">
+        <h2 class="md-headline">
+          {{ productList.selectedCategory === 'all' ? 'All Products' : productList.selectedCategory }}
+        </h2>
+        <span class="md-subhead">
+          {{ (productList.products | categoryFilter:productList.selectedCategory | searchFilter:productList.searchQuery).length }} products
+        </span>
+      </div>
+      
+      <!-- Product Cards -->
+      <div layout="row" layout-wrap ng-if="!productList.loading">
+        <div flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" 
+             ng-repeat="product in productList.products | categoryFilter:productList.selectedCategory | searchFilter:productList.searchQuery"
+             class="animate-repeat"
+             layout-padding>
+          <md-card class="product-card" md-whiteframe="2" ng-click="productList.viewProductDetails(product.id)">
+            <img ng-src="{{product.image}}" class="md-card-image" alt="{{product.name}}">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{product.name}}</span>
+                <span class="product-category">{{product.category}}</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>{{product.description | limitTo: 100}}{{product.description.length > 100 ? '...' : ''}}</p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="space-between center">
+              <span class="product-price">${{product.price.toFixed(2)}}</span>
+              <div>
+                <md-button class="md-icon-button" aria-label="Rating">
+                  <md-icon ng-repeat="i in [1, 2, 3, 4, 5]" 
+                           ng-if="i <= product.rating">star</md-icon>
+                </md-button>
+              </div>
+            </md-card-actions>
+          </md-card>
+        </div>
+        
+        <!-- No Results Message -->
+        <div flex="100" class="no-results" ng-if="(productList.products | categoryFilter:productList.selectedCategory | searchFilter:productList.searchQuery).length === 0 && !productList.loading">
+          <md-icon style="font-size: 48px;">search_off</md-icon>
+          <h2 class="md-title">No products found</h2>
+          <p class="md-subhead">Try a different search or category.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
